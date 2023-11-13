@@ -1,0 +1,79 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Product search";
+}
+
+<div class="text-center">
+    <form method="post" asp-page="/Login" asp-page-handler="Logout">
+        <div class="form-group">
+            <input type="submit" value="Log out" />
+        </div>
+    </form>
+    <form method="post" asp-page-handler="FindArticlesByPartOfName">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input name="AuthIssue" type="hidden" />
+        <div class="form-group">
+            <label asp-for="ArticleQueryString">Find article</label>
+            <input asp-for="ArticleQueryString" type="text" class="form-control" />
+            <span asp-validation-for="ArticleQueryString" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="QueryProductCount">Number of products to show:</label>
+            <select class="form-control" asp-for="QueryProductCount">
+                @foreach (int amount in Model.ProductCountOptions)
+                {
+                    if (amount == Model.ProductCount)
+                    {
+                        <option value="@amount" selected>@amount</option>
+                    }
+                    else
+                    {
+                        <option value="@amount">@amount</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="QueryProductCount" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Find products" />
+    </form>
+
+    @if (Model.Products != null)
+    {
+        string productStr = Model.Products.Count % 10 != 1 ? "products" : "product";
+        <hr />
+        <p>Showing page @Model.CurrentPage with @Model.Products.Count @productStr</p>
+        <table class="prettier-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Naziv</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="navigation">
+            @if (Model.CurrentPage > 1)
+            {
+                <a href="/Index?Query=@Model.QueryString&Page=@(Model.CurrentPage-1)">Previous page</a>
+            }
+            @for (int i = 1; i < Model.CurrentPage; i++)
+            {
+                <a href="/Index?Query=@Model.QueryString&Page=@i">@i</a>
+            }
+            <a href="#">@Model.CurrentPage</a>
+            @if (Model.HasMoreProducts)
+            {
+                <a href="/Index?Query=@Model.QueryString&Page=@(Model.CurrentPage+1)">Next page</a>
+            }
+        </div>
+    }
+</div>

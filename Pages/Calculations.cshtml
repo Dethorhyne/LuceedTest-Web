@@ -1,0 +1,93 @@
+﻿@page
+@model CalculationModel
+@{
+    ViewData["Title"] = "Transactions calculation";
+}
+
+<div class="text-center">
+    <form method="post" asp-page="/Login" asp-page-handler="Logout">
+        <div class="form-group">
+            <input type="submit" value="Log out" />
+        </div>
+    </form>
+    <h2>Transactions calculation</h2>
+    <form method="post" asp-page-handler="TransactionsCalculation">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Form_CalculationType">Calculation type</label>
+            <select class="form-control" asp-for="Form_CalculationType">
+                <option value="1">Show by payment type</option>
+                <option value="2">Show by article</option>
+            </select>
+            <span asp-validation-for="Form_CalculationType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Form_SalePointId">Sale point</label>
+            <select asp-for="Form_SalePointId" class="form-control">
+                @foreach (var salepoint in Model.SalePoints)
+                {
+                    <option value="@salepoint.SalePointId">@salepoint.Name</option>
+                }
+            </select>
+            <span asp-validation-for="Form_SalePointId" class="text-danger"></span>
+        </div>
+        <div class="d-flex flex-gap">
+            <div class="form-group flex-grow-1">
+                <label class="required" asp-for="Form_DateFrom">From date</label>
+                <input class="form-control" required type="date" asp-for="Form_DateFrom" />
+                <span asp-validation-for="Form_DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group flex-grow-1">
+                <label asp-for="Form_DateTo">To date</label>
+                <input class="form-control" type="date" asp-for="Form_DateTo" />
+                <span asp-validation-for="Form_DateTo" class="text-danger"></span>
+            </div>
+        </div>
+        <input type="submit" value="Show transactions calculation" />
+    </form>
+
+    @if (Model.PaymentCalculationsByPaymentType != null)
+    {
+        <table class="prettier-table">
+            <thead>
+                <tr>
+                    <th>Payment type</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.PaymentCalculationsByPaymentType)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if (Model.PaymentCalculationsByArticles != null)
+    {
+        <table class="prettier-table">
+            <thead>
+                <tr>
+                    <th>Payment type</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var article in Model.PaymentCalculationsByArticles)
+                {
+                <tr>
+                    <td>@article.Name</td>
+                    <td>@article.Amount</td>
+                    <td>@article.Total</td>
+                    <td>@(article.Service?"Yes":"No")</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

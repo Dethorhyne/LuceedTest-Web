@@ -1,0 +1,20 @@
+﻿@page
+@model LuceedTest_Web.Pages.LoginModel
+@{
+}
+<div class="text-center">
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="AuthUsername">User name</label>
+            <input asp-for="AuthUsername" type="text" required class="form-control" />
+            <span asp-validation-for="AuthUsername" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AuthPassword">Password </label>
+            <input asp-for="AuthPassword" type="password" required class="form-control" />
+            <span asp-validation-for="AuthPassword" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Authenticate" />
+    </form>
+</div>
