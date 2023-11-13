@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.34114.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuceedTest-Web", "LuceedTest-Web.csproj", "{9E5FBFDA-FFEF-42CD-8518-6E38080EF414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceedConnect", "..\LuceedConnect\LuceedConnect.csproj", "{2319040D-7FD4-4F1E-805C-E56FAAC84431}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceedConnect", ".\LuceedConnect\LuceedConnect.csproj", "{2319040D-7FD4-4F1E-805C-E56FAAC84431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
